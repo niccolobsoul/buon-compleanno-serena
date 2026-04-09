@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buon Compleanno Serena — bSoul</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Pinyon+Script&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'EB Garamond', Georgia, serif;
+      color: var(--charcoal);
+      background: var(--cream);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+
+    :root {
+      --cream: #f5ede6;
+      --cream-light: #faf6f1;
+      --olive: #8a9a5b;
+      --olive-light: #bcc482;
+      --olive-muted: rgba(188, 196, 130, 0.15);
+      --dark: #1a1f12;
+      --dark-green: #2d3522;
+      --gold: #c4a265;
+      --gold-light: #e8d5b0;
+      --blush: #d4a5a5;
+      --coral: #c76a6a;
+      --charcoal: #2c2c2c;
+      --white: #fafaf7;
+    }
+
+    /* Grain */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.035;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Typography */
+    .font-display { font-family: 'Bodoni Moda', 'Didot', serif; font-weight: 700; }
+    .font-script { font-family: 'Pinyon Script', cursive; }
+    .font-body { font-family: 'EB Garamond', Georgia, serif; }
+
+    /* Scroll Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s cubic-bezier(0.23, 1, 0.32, 1),
+                  transform 0.9s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.15s; }
+    .reveal-delay-2 { transition-delay: 0.3s; }
+    .reveal-delay-3 { transition-delay: 0.45s; }
+    .reveal-delay-4 { transition-delay: 0.6s; }
+    .reveal-delay-5 { transition-delay: 0.75s; }
+
+    /* Ornament */
+    .ornament {
+      display: flex; align-items: center; justify-content: center;
+      gap: 12px; margin-bottom: 24px;
+    }
+    .ornament::before, .ornament::after {
+      content: ''; width: 40px; height: 1px; background: var(--gold);
+    }
+    .ornament .diamond {
+      width: 6px; height: 6px; background: var(--gold);
+      transform: rotate(45deg); flex-shrink: 0;
+    }
+
+    /* Section header */
+    .section-header { text-align: center; margin-bottom: clamp(48px, 6vw, 80px); }
+    .section-header h2 {
+      font-family: 'Bodoni Moda', serif; font-size: clamp(32px, 5vw, 56px);
+      font-weight: 700; color: var(--dark-green);
+    }
+
+    /* ══════════ HERO ══════════ */
+    .hero {
+      position: relative; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: linear-gradient(170deg, var(--dark) 0%, var(--dark-green) 60%, #3a4428 100%);
+      overflow: hidden; text-align: center; padding: 40px 20px;
+    }
+    .hero-leaf {
+      position: absolute; border-radius: 50% 0 50% 0; opacity: 0;
+      animation: leafFloat linear infinite;
+    }
+    @keyframes leafFloat {
+      0% { opacity: 0; transform: translateY(110vh) rotate(0deg); }
+      10% { opacity: 1; } 90% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-10vh) rotate(360deg); }
+    }
+    .hero::before {
+      content: ''; position: absolute; width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,162,101,0.08) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 2; }
+    .hero-subtitle {
+      font-family: 'Bodoni Moda', serif; font-size: clamp(11px, 1.5vw, 14px);
+      letter-spacing: 6px; text-transform: uppercase; color: var(--gold);
+      margin-bottom: 16px; opacity: 0; animation: heroFadeIn 1.2s ease 0.3s forwards;
+    }
+    .hero-name {
+      font-family: 'Pinyon Script', cursive; font-size: clamp(64px, 14vw, 160px);
+      color: var(--gold); line-height: 1.1; opacity: 0;
+      animation: heroSlideUp 1.4s cubic-bezier(0.23,1,0.32,1) 0.6s forwards;
+      text-shadow: 0 2px 40px rgba(196,162,101,0.2);
+    }
+    .hero-aka {
+      font-family: 'EB Garamond', serif; font-size: clamp(16px, 2vw, 22px);
+      color: var(--gold-light); opacity: 0; font-style: italic;
+      animation: heroFadeIn 1.2s ease 1.4s forwards; margin-top: 16px;
+    }
+    .hero-aka strong {
+      font-family: 'Bodoni Moda', serif; font-style: normal;
+      font-size: clamp(20px, 2.5vw, 28px); display: block; margin-top: 6px;
+      letter-spacing: 3px; text-transform: uppercase; color: var(--gold);
+    }
+    .hero-date {
+      font-family: 'EB Garamond', serif; font-size: clamp(12px, 1.3vw, 15px);
+      letter-spacing: 4px; color: var(--gold-light); margin-top: 24px;
+      opacity: 0; animation: heroFadeIn 1.2s ease 1s forwards;
+    }
+    .hero-ornament { margin: 24px auto; opacity: 0; animation: heroFadeIn 1s ease 1s forwards; }
+    .hero-ornament .ornament::before, .hero-ornament .ornament::after { background: rgba(196,162,101,0.4); }
+
+    .scroll-cue {
+      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: 0; animation: heroFadeIn 1s ease 2s forwards;
+    }
+    .scroll-cue span {
+      font-family: 'Bodoni Moda', serif; font-size: 10px; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--gold-light); opacity: 0.6;
+    }
+    .scroll-cue .chevron {
+      width: 20px; height: 20px;
+      border-right: 1px solid var(--gold-light); border-bottom: 1px solid var(--gold-light);
+      transform: rotate(45deg); animation: chevronBounce 2s ease-in-out infinite; opacity: 0.5;
+    }
+    @keyframes heroFadeIn { to { opacity: 1; } }
+    @keyframes heroSlideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes chevronBounce { 0%, 100% { transform: rotate(45deg) translateY(0); } 50% { transform: rotate(45deg) translateY(6px); } }
+
+    /* ══════════ PARLIAMO CHIARO ══════════ */
+    .chiaro {
+      position: relative; background: var(--cream);
+      padding: clamp(80px, 12vw, 160px) 20px; text-align: center;
+    }
+    .chiaro-statement {
+      max-width: 750px; margin: 0 auto 48px;
+      font-family: 'Bodoni Moda', serif; font-size: clamp(24px, 4vw, 44px);
+      font-weight: 700; color: var(--dark-green); line-height: 1.35;
+    }
+    .chiaro-punchline {
+      font-family: 'EB Garamond', serif; font-size: clamp(18px, 2.2vw, 24px);
+      color: var(--olive); font-style: italic; margin-bottom: 56px;
+    }
+    .chiaro-photo-wrap {
+      position: relative; max-width: 380px; margin: 0 auto; perspective: 800px;
+    }
+    .chiaro-photo {
+      width: 100%; border-radius: 8px; object-fit: cover; aspect-ratio: 3 / 4;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.08);
+      transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), box-shadow 0.4s ease;
+    }
+    .chiaro-photo-wrap::before {
+      content: ''; position: absolute; inset: -12px;
+      border: 1px solid var(--gold-light); border-radius: 12px; opacity: 0.5; pointer-events: none;
+    }
+    .chiaro-caption {
+      font-family: 'EB Garamond', serif; font-size: clamp(15px, 1.6vw, 18px);
+      color: var(--charcoal); opacity: 0.6; font-style: italic; margin-top: 20px;
+      max-width: 380px; margin-left: auto; margin-right: auto;
+    }
+
+    /* ══════════ COUNTERS ══════════ */
+    .counters {
+      background: var(--dark-green);
+      padding: clamp(60px, 8vw, 100px) 20px;
+    }
+    .counters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+      gap: clamp(32px, 4vw, 56px); max-width: 900px; margin: 0 auto;
+      text-align: center;
+    }
+    .counter-item { }
+    .counter-number {
+      font-family: 'Bodoni Moda', serif; font-size: clamp(48px, 7vw, 80px);
+      font-weight: 700; color: var(--gold); line-height: 1;
+    }
+    .counter-label {
+      font-family: 'EB Garamond', serif; font-size: clamp(15px, 1.6vw, 18px);
+      color: var(--cream); opacity: 0.75; margin-top: 12px; line-height: 1.5;
+    }
+
+    /* ══════════ DIZIONARIO ══════════ */
+    .dizionario {
+      background: var(--white);
+      padding: clamp(80px, 12vw, 160px) 20px;
+    }
+    .dizionario-list {
+      max-width: 700px; margin: 0 auto;
+      display: flex; flex-direction: column; gap: clamp(28px, 4vw, 44px);
+    }
+    .diz-entry { }
+    .diz-bubble {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 20px 20px 20px 6px;
+      padding: clamp(16px, 2vw, 24px) clamp(20px, 3vw, 28px);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      position: relative;
+      max-width: 85%;
+    }
+    .diz-bubble .sender {
+      font-family: 'Bodoni Moda', serif; font-size: 12px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--olive);
+      margin-bottom: 8px;
+    }
+    .diz-bubble .msg {
+      font-size: clamp(18px, 2.2vw, 24px); line-height: 1.5; color: var(--charcoal);
+    }
+    .diz-translation {
+      margin-top: 12px;
+      padding-left: clamp(16px, 3vw, 32px);
+      border-left: 3px solid var(--coral);
+    }
+    .diz-translation .label {
+      font-family: 'Bodoni Moda', serif; font-size: 11px;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--coral); margin-bottom: 4px;
+    }
+    .diz-translation .meaning {
+      font-size: clamp(16px, 1.8vw, 20px);
+      color: var(--charcoal); font-style: italic; line-height: 1.6; opacity: 0.85;
+    }
+
+    /* ══════════ GALLERY ══════════ */
+    .gallery {
+      background: var(--cream); padding: clamp(80px, 10vw, 140px) 20px;
+    }
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(12, 1fr);
+      gap: clamp(12px, 2vw, 24px); max-width: 1100px; margin: 0 auto;
+    }
+    .gallery-item {
+      position: relative; border-radius: 6px; overflow: hidden; cursor: pointer;
+      transition: transform 0.5s cubic-bezier(0.23,1,0.32,1), box-shadow 0.5s ease, z-index 0s;
+    }
+    .gallery-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.23,1,0.32,1);
+    }
+    .gallery-item:hover { z-index: 10; box-shadow: 0 25px 60px rgba(0,0,0,0.18); }
+    .gallery-item:hover img { transform: scale(1.03); }
+
+    .g1 { grid-column: 1 / 6; transform: rotate(-1.5deg); }
+    .g2 { grid-column: 6 / 10; transform: rotate(1deg); margin-top: 30px; }
+    .g3 { grid-column: 9 / 13; grid-row: 1 / 3; transform: rotate(-0.5deg); }
+    .g4 { grid-column: 1 / 5; transform: rotate(1.5deg); margin-top: -20px; }
+    .g5 { grid-column: 5 / 9; transform: rotate(-1deg); margin-top: 10px; }
+    .g6 { grid-column: 2 / 7; transform: rotate(0.5deg); }
+    .g7 { grid-column: 7 / 12; transform: rotate(-1.2deg); margin-top: -15px; }
+
+    .gallery-item:hover { transform: rotate(0deg) translateY(-8px) scale(1.02); }
+
+    /* Caption overlay */
+    .gallery-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: clamp(12px, 2vw, 20px);
+      background: linear-gradient(transparent 0%, rgba(0,0,0,0.65) 100%);
+      color: white; font-style: italic;
+      font-size: clamp(13px, 1.4vw, 16px); line-height: 1.4;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
+      border-radius: 0 0 6px 6px;
+    }
+    .gallery-item:hover .gallery-caption { transform: translateY(0); }
+
+    /* Vignette */
+    .gallery-item::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.08) 100%);
+      pointer-events: none; border-radius: 6px;
+    }
+
+    /* ══════════ LE 5 VERITA ══════════ */
+    .verita {
+      position: relative;
+      background: linear-gradient(175deg, var(--dark-green) 0%, var(--dark) 100%);
+      padding: clamp(80px, 12vw, 160px) 20px; overflow: hidden;
+    }
+    .verita .section-header h2 { color: var(--cream); }
+    .verita-intro {
+      text-align: center; max-width: 600px; margin: -20px auto 60px;
+      font-size: clamp(16px, 2vw, 20px); color: var(--gold-light);
+      font-style: italic; line-height: 1.7;
+    }
+    .verita-list { max-width: 800px; margin: 0 auto; }
+    .verita-row {
+      display: flex; align-items: baseline; gap: clamp(16px, 3vw, 40px);
+      padding: clamp(24px, 4vw, 40px) 0;
+      border-bottom: 1px solid rgba(196,162,101,0.12);
+    }
+    .verita-row:last-child { border-bottom: none; }
+    .verita-word {
+      font-family: 'Bodoni Moda', serif; font-size: clamp(32px, 5.5vw, 64px);
+      font-weight: 700; color: var(--gold); line-height: 1;
+      min-width: clamp(130px, 18vw, 260px); flex-shrink: 0;
+      transition: text-shadow 0.4s ease;
+    }
+    .verita-row:hover .verita-word { text-shadow: 0 0 40px rgba(196,162,101,0.3); }
+    .verita-desc {
+      font-size: clamp(16px, 1.8vw, 20px); color: var(--cream);
+      line-height: 1.6; opacity: 0.8;
+    }
+    .verita-bg-photo {
+      position: absolute; right: -5%; bottom: -10%;
+      width: clamp(250px, 35vw, 500px); opacity: 0.06;
+      filter: grayscale(100%); pointer-events: none; border-radius: 12px;
+    }
+
+    /* ══════════ IL MOMENTO SERIO ══════════ */
+    .serio {
+      background: var(--cream); text-align: center;
+      padding: clamp(80px, 12vw, 160px) 20px;
+    }
+    .serio-content { max-width: 650px; margin: 0 auto; }
+    .serio-label {
+      font-family: 'Bodoni Moda', serif; font-size: clamp(12px, 1.4vw, 15px);
+      letter-spacing: 5px; text-transform: uppercase; color: var(--gold);
+      margin-bottom: 32px;
+    }
+    .serio-text {
+      font-size: clamp(20px, 3vw, 32px); line-height: 1.7;
+      color: var(--dark-green);
+    }
+    .serio-text strong {
+      font-family: 'Bodoni Moda', serif; font-weight: 700;
+    }
+    .serio-highlight {
+      font-family: 'Pinyon Script', cursive;
+      font-size: clamp(32px, 5vw, 52px);
+      color: var(--olive); margin-top: 32px; display: block;
+    }
+
+    /* ══════════ MESSAGES ══════════ */
+    .messages {
+      background: var(--white);
+      padding: clamp(80px, 12vw, 160px) 20px;
+    }
+    .messages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      gap: clamp(24px, 3vw, 40px); max-width: 1100px; margin: 0 auto;
+    }
+    .message-card {
+      background: var(--cream-light); border-radius: 12px;
+      padding: clamp(32px, 4vw, 48px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04), 0 1px 4px rgba(0,0,0,0.03);
+      position: relative;
+      transition: transform 0.5s cubic-bezier(0.23,1,0.32,1), box-shadow 0.5s ease;
+    }
+    .message-card:hover {
+      transform: translateY(-6px) rotate(0deg) !important;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+    }
+    .message-card:nth-child(1) { transform: rotate(-0.8deg); }
+    .message-card:nth-child(2) { transform: rotate(0.5deg); }
+    .message-card:nth-child(3) { transform: rotate(-0.3deg); }
+    .message-card::before {
+      content: ''; position: absolute; top: 0; left: 32px; right: 32px; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      border-radius: 2px;
+    }
+    .message-card .quote-mark {
+      font-family: 'Bodoni Moda', serif; font-size: 64px; line-height: 0.5;
+      color: var(--olive-light); opacity: 0.3; margin-bottom: 12px; display: block;
+    }
+    .message-card p {
+      font-size: clamp(16px, 1.6vw, 19px); line-height: 1.8;
+      color: var(--charcoal); margin-bottom: 24px;
+    }
+    .message-signature {
+      display: flex; align-items: center; gap: 16px;
+      border-top: 1px solid rgba(0,0,0,0.06); padding-top: 20px;
+    }
+    .message-signature .sig-photo {
+      width: 52px; height: 52px; border-radius: 50%; object-fit: cover;
+      border: 2px solid var(--gold-light);
+    }
+    .message-signature .sig-name {
+      font-family: 'Pinyon Script', cursive; font-size: 26px; color: var(--dark-green);
+    }
+    .message-signature .sig-role {
+      font-size: 13px; color: var(--olive); letter-spacing: 1px;
+    }
+
+    /* ══════════ FINALE ══════════ */
+    .finale {
+      position: relative; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: linear-gradient(175deg, var(--cream) 0%, var(--dark-green) 50%, var(--dark) 100%);
+      text-align: center; padding: 60px 20px; overflow: hidden;
+    }
+    .finale-content { position: relative; z-index: 2; }
+    .finale-auguri {
+      font-family: 'Pinyon Script', cursive; font-size: clamp(52px, 11vw, 130px);
+      color: var(--gold); line-height: 1.15;
+      text-shadow: 0 4px 60px rgba(196,162,101,0.25); margin-bottom: 12px;
+    }
+    .finale-sub {
+      font-family: 'Bodoni Moda', serif; font-size: clamp(14px, 2vw, 20px);
+      letter-spacing: 4px; text-transform: uppercase; color: var(--gold-light);
+      opacity: 0.8; margin-bottom: 8px;
+    }
+    .finale-sub-italic {
+      font-family: 'EB Garamond', serif; font-size: clamp(16px, 2vw, 22px);
+      color: var(--cream); opacity: 0.6; font-style: italic; margin-bottom: 48px;
+    }
+    .finale-photo-row {
+      display: flex; gap: 16px; justify-content: center;
+      margin-bottom: 48px; flex-wrap: wrap;
+    }
+    .finale-photo-row img {
+      width: clamp(80px, 12vw, 130px); height: clamp(80px, 12vw, 130px);
+      object-fit: cover; border-radius: 50%;
+      border: 3px solid var(--gold-light); box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
+    }
+    .finale-photo-row img:hover { transform: scale(1.1) rotate(5deg); }
+    .finale-brand {
+      font-family: 'Bodoni Moda', serif; font-size: clamp(12px, 1.5vw, 16px);
+      letter-spacing: 5px; text-transform: uppercase;
+      color: rgba(245,237,230,0.4); margin-top: 40px;
+    }
+
+    #confetti-canvas {
+      position: fixed; inset: 0; pointer-events: none; z-index: 9998;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .gallery-grid { grid-template-columns: repeat(6, 1fr); gap: 10px; }
+      .g1 { grid-column: 1 / 4; grid-row: 1; transform: rotate(-1deg); }
+      .g2 { grid-column: 4 / 7; grid-row: 1; transform: rotate(0.5deg); margin-top: 0; }
+      .g3 { grid-column: 1 / 4; grid-row: 2; transform: rotate(0.5deg); }
+      .g4 { grid-column: 4 / 7; grid-row: 2; transform: rotate(-0.5deg); margin-top: 0; }
+      .g5 { grid-column: 1 / 4; grid-row: 3; transform: rotate(-0.5deg); margin-top: 0; }
+      .g6 { grid-column: 4 / 7; grid-row: 3; transform: rotate(0.5deg); }
+      .g7 { grid-column: 2 / 6; grid-row: 4; transform: rotate(0deg); margin-top: 0; }
+      .gallery-caption { transform: translateY(0); font-size: 12px; padding: 8px 10px; }
+      .verita-row { flex-direction: column; gap: 8px; }
+      .verita-word { min-width: unset; }
+      .messages-grid { grid-template-columns: 1fr; }
+      .message-card:nth-child(1),
+      .message-card:nth-child(2),
+      .message-card:nth-child(3) { transform: rotate(0deg); }
+      .diz-bubble { max-width: 95%; }
+    }
+    ::selection { background: var(--olive-light); color: var(--dark); }
+    img { background: var(--cream-light); }
+  </style>
+</head>
+<body>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- ═══════ HERO ═══════ -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <div class="hero-ornament"><div class="ornament"><div class="diamond"></div></div></div>
+      <div class="hero-subtitle">Buon Compleanno</div>
+      <h1 class="hero-name">Serena</h1>
+      <div class="hero-aka">
+        ...o come la chiamiamo noi:
+        <strong>La Secci</strong>
+      </div>
+      <div class="hero-date">11 Aprile 2026</div>
+    </div>
+    <div class="scroll-cue">
+      <span>Scorri</span>
+      <div class="chevron"></div>
+    </div>
+  </section>
+
+  <!-- ═══════ PARLIAMO CHIARO ═══════ -->
+  <section class="chiaro">
+    <div class="chiaro-statement reveal">
+      Se stai leggendo questa pagina, Serena ti ha già stressato almeno una volta oggi.
+    </div>
+    <div class="chiaro-punchline reveal reveal-delay-1">E quasi sicuramente aveva ragione.</div>
+    <div class="chiaro-photo-wrap reveal reveal-delay-2" data-tilt>
+      <img class="chiaro-photo" src="serena_photos/DSC00930.JPEG" alt="Serena">
+    </div>
+    <p class="chiaro-caption reveal reveal-delay-3">
+      Questo è il suo sguardo quando dice "tutto ok?" sapendo già che non lo è.
+    </p>
+  </section>
+
+  <!-- ═══════ COUNTERS ═══════ -->
+  <section class="counters">
+    <div class="counters-grid">
+      <div class="counter-item reveal">
+        <div class="counter-number" data-target="527">0</div>
+        <div class="counter-label">Email "urgenti"<br>mandate dopo le 20</div>
+      </div>
+      <div class="counter-item reveal reveal-delay-1">
+        <div class="counter-number" data-target="∞">∞</div>
+        <div class="counter-label">Volte che ha detto<br>"fammi capire..."</div>
+      </div>
+      <div class="counter-item reveal reveal-delay-2">
+        <div class="counter-number" data-target="poche" data-is-zero="true" style="font-size: clamp(40px, 6vw, 68px);">Poche</div>
+        <div class="counter-label">Volte che<br>aveva torto</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ IL DIZIONARIO DI SERENA ═══════ -->
+  <section class="dizionario">
+    <div class="section-header reveal">
+      <div class="ornament"><div class="diamond"></div></div>
+      <h2>Il Dizionario di Serena</h2>
+    </div>
+    <div class="dizionario-list">
+
+      <div class="diz-entry reveal">
+        <div class="diz-bubble">
+          <div class="sender">Serena</div>
+          <div class="msg">"Va bene 👍"</div>
+        </div>
+        <div class="diz-translation">
+          <div class="label">Traduzione</div>
+          <div class="meaning">Non va bene per niente. Rifare tutto da capo.</div>
+        </div>
+      </div>
+
+      <div class="diz-entry reveal">
+        <div class="diz-bubble">
+          <div class="sender">Serena</div>
+          <div class="msg">"Fammi capire una cosa..."</div>
+        </div>
+        <div class="diz-translation">
+          <div class="label">Traduzione</div>
+          <div class="meaning">Sto per smontare il tuo lavoro pezzo per pezzo.</div>
+        </div>
+      </div>
+
+      <div class="diz-entry reveal">
+        <div class="diz-bubble">
+          <div class="sender">Serena</div>
+          <div class="msg">"Ho visto una cosa 👀"</div>
+        </div>
+        <div class="diz-translation">
+          <div class="label">Traduzione</div>
+          <div class="meaning">Ho trovato 47 errori e li ho contati tutti.</div>
+        </div>
+      </div>
+
+
+    </div>
+  </section>
+
+  <!-- ═══════ GALLERY ═══════ -->
+  <section class="gallery">
+    <div class="section-header reveal">
+      <div class="ornament"><div class="diamond"></div></div>
+      <h2>I momenti migliori</h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item g1 reveal">
+        <img src="serena_photos/DSC00973.JPEG" alt="Serena" loading="lazy">
+        <div class="gallery-caption">Rara foto di Serena che NON sta correggendo qualcuno</div>
+      </div>
+      <div class="gallery-item g2 reveal reveal-delay-1">
+        <img src="serena_photos/IMG_0244.jpg" alt="Serena e Martina" loading="lazy">
+        <div class="gallery-caption">Le uniche due che si capiscono al primo sguardo. Il resto del team trema.</div>
+      </div>
+      <div class="gallery-item g3 reveal reveal-delay-2">
+        <img src="serena_photos/a02d046d-049a-4bc0-bc31-3a52b5e36f4a.JPG" alt="Serena" loading="lazy">
+        <div class="gallery-caption">Nemmeno la maternità l'ha fermata. "Avete controllato quei numeri?"</div>
+      </div>
+      <div class="gallery-item g4 reveal reveal-delay-1">
+        <img src="serena_photos/4AAEAABD-AE30-495F-A0B7-F052AB6FD6B6.JPG" alt="Serena" loading="lazy">
+        <div class="gallery-caption">Quando trova l'errore che le avevi detto "non c'è"</div>
+      </div>
+      <div class="gallery-item g5 reveal reveal-delay-2">
+        <img src="serena_photos/DSC00964.JPEG" alt="Serena" loading="lazy">
+        <div class="gallery-caption">Lo sguardo di chi ha già capito che qualcosa non torna</div>
+      </div>
+      <div class="gallery-item g6 reveal reveal-delay-3">
+        <img src="serena_photos/DSC00827.JPEG" alt="Serena" loading="lazy">
+        <div class="gallery-caption">Serena che arriva dopo aver letto la tua email</div>
+      </div>
+      <div class="gallery-item g7 reveal reveal-delay-4">
+        <img src="serena_photos/84208734-91FC-4E40-9388-7A4735F31ECD.JPG" alt="Serena" loading="lazy">
+        <div class="gallery-caption">Ore 20. Tutti a casa. Serena: "Aspetta, ho visto una cosa..."</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ LE 5 VERITA ═══════ -->
+  <section class="verita">
+    <div class="section-header reveal">
+      <div class="ornament"><div class="diamond"></div></div>
+      <h2>Le 5 verità</h2>
+    </div>
+    <p class="verita-intro reveal reveal-delay-1">
+      Quello che tutti pensano. Che nessuno osa dire. Che oggi scriviamo.
+    </p>
+    <div class="verita-list">
+      <div class="verita-row reveal">
+        <span class="verita-word font-display">Perfezionista</span>
+        <span class="verita-desc">Se non è fatto come dice lei, non è fatto. Punto.</span>
+      </div>
+      <div class="verita-row reveal reveal-delay-1">
+        <span class="verita-word font-display">Rompicoglioni</span>
+        <span class="verita-desc">Lo sa. Non le importa. E ha ragione.</span>
+      </div>
+      <div class="verita-row reveal reveal-delay-2">
+        <span class="verita-word font-display">Diretta</span>
+        <span class="verita-desc">Non gira intorno alle cose. Le cose girano intorno a lei.</span>
+      </div>
+      <div class="verita-row reveal reveal-delay-3">
+        <span class="verita-word font-display">Instancabile</span>
+        <span class="verita-desc">Le 18? Le 20? Serena è ancora lì che controlla.</span>
+      </div>
+      <div class="verita-row reveal reveal-delay-4">
+        <span class="verita-word font-display">Indispensabile</span>
+        <span class="verita-desc">Lo odiamo ammetterlo. Ma è così.</span>
+      </div>
+    </div>
+    <img class="verita-bg-photo" src="serena_photos/ddf5b3d1-7582-4a47-9fa4-3b51b1296dbc.JPG" alt="" aria-hidden="true" loading="lazy">
+  </section>
+
+  <!-- ═══════ IL MOMENTO SERIO ═══════ -->
+  <section class="serio">
+    <div class="serio-content">
+      <div class="serio-label reveal">Scherzi a parte</div>
+      <div class="ornament reveal"><div class="diamond"></div></div>
+      <p class="serio-text reveal reveal-delay-1">
+        Se bSoul funziona, è anche perché c'è qualcuno che non accetta il
+        <strong>"va bene così"</strong>.<br><br>
+        Qualcuno che alza l'asticella.<br>
+        Qualcuno che rompe i coglioni perché <strong>ci tiene davvero</strong>.<br><br>
+        E non ti cambieremmo con nessuno.
+      </p>
+      <span class="serio-highlight reveal reveal-delay-2">Quella persona sei tu, Serena.</span>
+    </div>
+  </section>
+
+  <!-- ═══════ MESSAGES ═══════ -->
+  <section class="messages">
+    <div class="section-header reveal">
+      <div class="ornament"><div class="diamond"></div></div>
+      <h2>Da chi ti vuole bene</h2>
+    </div>
+    <div class="messages-grid">
+
+      <div class="message-card reveal">
+        <span class="quote-mark">&ldquo;</span>
+        <p>
+          Sere, mi hai stressato più tu in un anno che tutti gli altri in cinque.
+          Ma è anche per questo che le cose funzionano. Non cambiare mai
+          — anche se ogni tanto vorrei strangolarti.<br><br>
+          Auguri, ti meriti il meglio.
+        </p>
+        <div class="message-signature">
+          <div>
+            <div class="sig-name">Niccolò</div>
+            <div class="sig-role">Marketing &amp; Strategy</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PLACEHOLDER: card Martina — inserire nota scritta da lei -->
+
+      <div class="message-card reveal reveal-delay-1">
+        <span class="quote-mark">&ldquo;</span>
+        <p>
+          Tutte, nessuna esclusa, abbiamo pensato almeno una volta di mandarti
+          a quel paese. E tutte, nessuna esclusa, ci siamo dette:
+          "Però aveva ragione."<br><br>
+          Buon compleanno, Rompicoglioni.
+        </p>
+        <div class="message-signature">
+          <div>
+            <div class="sig-name">Team bSoul</div>
+            <div class="sig-role">Tutte, nessuna esclusa</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════ FINALE ═══════ -->
+  <section class="finale" id="finale">
+    <div class="finale-content reveal">
+      <div class="ornament" style="margin-bottom: 32px;">
+        <div class="diamond" style="background: var(--gold);"></div>
+      </div>
+      <h2 class="finale-auguri">Tanti Auguri<br>Rompicoglioni</h2>
+      <p class="finale-sub">Ti vogliamo bene</p>
+      <p class="finale-sub-italic">Anche quando ci fai impazzire.</p>
+      <div class="finale-photo-row">
+        <img src="serena_photos/DSC00964.JPEG" alt="Serena" loading="lazy">
+        <img src="serena_photos/DSC00973.JPEG" alt="Serena" loading="lazy">
+        <img src="serena_photos/84208734-91FC-4E40-9388-7A4735F31ECD.JPG" alt="Serena" loading="lazy">
+        <img src="serena_photos/4AAEAABD-AE30-495F-A0B7-F052AB6FD6B6.JPG" alt="Serena" loading="lazy">
+      </div>
+      <div class="finale-brand">bSoul — Bella, Naturalmente.<br><span style="font-size: 0.85em; opacity: 0.7;">(Come Serena. A modo suo.)</span></div>
+    </div>
+  </section>
+
+  <!-- ═══════ SCRIPTS ═══════ -->
+  <script>
+  (function() {
+    'use strict';
+
+    /* Scroll Reveal */
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    /* Floating leaves */
+    const hero = document.getElementById('hero');
+    const leafColors = [
+      'rgba(188,196,130,0.12)', 'rgba(196,162,101,0.10)',
+      'rgba(212,165,165,0.08)', 'rgba(232,213,176,0.10)'
+    ];
+    for (let i = 0; i < 18; i++) {
+      const leaf = document.createElement('div');
+      leaf.className = 'hero-leaf';
+      const s = 4 + Math.random() * 10;
+      leaf.style.cssText = `width:${s}px;height:${s*2.2}px;left:${Math.random()*100}%;background:${leafColors[Math.floor(Math.random()*leafColors.length)]};animation-duration:${12+Math.random()*18}s;animation-delay:${-Math.random()*20}s;`;
+      hero.appendChild(leaf);
+    }
+
+    /* 3D tilt */
+    document.querySelectorAll('[data-tilt]').forEach(wrap => {
+      const img = wrap.querySelector('img');
+      wrap.addEventListener('mousemove', (e) => {
+        const r = wrap.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        img.style.transform = `rotateY(${x*12}deg) rotateX(${-y*12}deg) scale(1.02)`;
+      });
+      wrap.addEventListener('mouseleave', () => { img.style.transform = ''; });
+    });
+
+    /* Gallery 3D hover */
+    const rotMap = { g1: -1.5, g2: 1, g3: -0.5, g4: 1.5, g5: -1, g6: 0.5, g7: -1.2 };
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      item.addEventListener('mousemove', (e) => {
+        const r = item.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        item.style.transform = `rotate(0deg) perspective(600px) rotateY(${x*8}deg) rotateX(${-y*8}deg) translateY(-8px) scale(1.02)`;
+      });
+      item.addEventListener('mouseleave', () => {
+        for (const [cls, deg] of Object.entries(rotMap)) {
+          if (item.classList.contains(cls)) { item.style.transform = `rotate(${deg}deg)`; return; }
+        }
+      });
+    });
+
+    /* Counter animation */
+    const counterObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target.querySelector('.counter-number');
+        const target = el.dataset.target;
+        if (target === '∞' || el.dataset.isZero === 'true') {
+          counterObs.unobserve(e.target); return;
+        }
+        const end = parseInt(target);
+        const duration = 2000;
+        const start = performance.now();
+        function tick(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.floor(eased * end);
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        counterObs.unobserve(e.target);
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.counter-item').forEach(el => counterObs.observe(el));
+
+    /* Confetti */
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    let confettiTriggered = false, particles = [], confettiActive = false;
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resizeCanvas(); window.addEventListener('resize', resizeCanvas);
+    const cColors = ['#c4a265','#bcc482','#d4a5a5','#e8d5b0','#8a9a5b','#f5ede6','#ffd700'];
+    class P {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = -20 - Math.random() * canvas.height * 0.3;
+        this.w = 4 + Math.random() * 8; this.h = 3 + Math.random() * 5;
+        this.color = cColors[Math.floor(Math.random() * cColors.length)];
+        this.vx = (Math.random() - 0.5) * 4; this.vy = 1.5 + Math.random() * 3;
+        this.rot = Math.random() * 360; this.rs = (Math.random() - 0.5) * 8;
+        this.o = 1; this.fs = 0.002 + Math.random() * 0.003;
+        this.wb = Math.random() * Math.PI * 2; this.ws = 0.02 + Math.random() * 0.04;
+      }
+      update() {
+        this.x += this.vx + Math.sin(this.wb) * 0.5;
+        this.y += this.vy; this.rot += this.rs;
+        this.wb += this.ws; this.o -= this.fs; this.vy += 0.02;
+      }
+      draw() {
+        ctx.save(); ctx.globalAlpha = Math.max(0, this.o);
+        ctx.translate(this.x, this.y); ctx.rotate(this.rot * Math.PI / 180);
+        ctx.fillStyle = this.color;
+        ctx.fillRect(-this.w/2, -this.h/2, this.w, this.h);
+        ctx.restore();
+      }
+    }
+    function launchConfetti() {
+      for (let i = 0; i < 150; i++) particles.push(new P());
+      if (!confettiActive) { confettiActive = true; animC(); }
+    }
+    function animC() {
+      if (!confettiActive) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles = particles.filter(p => p.o > 0 && p.y < canvas.height + 50);
+      particles.forEach(p => { p.update(); p.draw(); });
+      if (particles.length > 0) requestAnimationFrame(animC);
+      else { confettiActive = false; ctx.clearRect(0, 0, canvas.width, canvas.height); }
+    }
+    const finObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !confettiTriggered) {
+          confettiTriggered = true;
+          setTimeout(launchConfetti, 400);
+          setTimeout(launchConfetti, 1800);
+        }
+      });
+    }, { threshold: 0.3 });
+    finObs.observe(document.getElementById('finale'));
+
+    /* Hide scroll cue */
+    const scrollCue = document.querySelector('.scroll-cue');
+    let sh = false;
+    window.addEventListener('scroll', () => {
+      if (!sh && window.scrollY > 100) {
+        scrollCue.style.opacity = '0'; scrollCue.style.transition = 'opacity 0.6s ease'; sh = true;
+      }
+    }, { passive: true });
+
+  })();
+  </script>
+
+</body>
+</html>
